@@ -1,6 +1,6 @@
 module.exports = {
   HOST: "localhost",
   USER: "root",
-  PASSWORD: "123456",
-  DB: "testdb"
+  PASSWORD: "root",
+  DB: "rssm_db"
 };
