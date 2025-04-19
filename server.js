@@ -1,6 +1,6 @@
 const express = require("express");
-// const bodyParser = require("body-parser"); /* deprecated */
 const cors = require("cors");
+const sequelize = require('./app/config/database.js');
 const { registerRoutes } = require('./app/router.manager.js');
 
 const app = express();
@@ -34,6 +34,19 @@ require("./app/routes/tutorial.routes.js")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-});
+
+const startServer = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Database connected');
+    await sequelize.sync({ force: false });
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error('Database connection failed:', error.message);
+    process.exit(1);
+  }
+};
+
+startServer();
