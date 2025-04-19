@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const companyService = require('../services/companyService');
+const { authenticateToken, authorizeRole } = require('../middleware/auth');
+
+router.use(authenticateToken);
 
 router.get('/CompanyDashboard', async (req, res) => {
   try {
